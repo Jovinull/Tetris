@@ -66,11 +66,13 @@ void input_init(Input* in, const Config* cfg) {
 }
 
 static GameAction action_from_scancode(const Input* in, SDL_Scancode sc) {
-  if (sc == SDL_SCANCODE_UP) return ACT_UP;
+  if (!in) return ACT_NONE;
   for (int a = 1; a <= ACT_RESTART; ++a) {
     if (in->map[a] == sc) return (GameAction)a;
   }
+
   // hardcoded extras
+  if (sc == SDL_SCANCODE_UP) return ACT_UP;
   if (sc == SDL_SCANCODE_P) return ACT_PAUSE;
   if (sc == SDL_SCANCODE_R) return ACT_RESTART;
   return ACT_NONE;
