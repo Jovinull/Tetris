@@ -1,7 +1,9 @@
 #include "gameplay/board.h"
-#include <stdio.h>
 
 #define ASSERT(x) do { if (!(x)) return 1; } while(0)
+
+/* protótipo para evitar -Wmissing-prototypes */
+int test_board(void);
 
 int test_board(void) {
   Board b; board_clear(&b);

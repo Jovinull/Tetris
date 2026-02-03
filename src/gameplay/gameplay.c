@@ -50,9 +50,6 @@ static void lock_piece(Gameplay* g) {
   int rows[4] = {0,0,0,0};
   const int cleared = board_clear_lines(&g->board, rows);
 
-  const ScoreState* st_before = g->score->get(g->score);
-  const int old_level = st_before->level;
-
   const ScoreResult sr = g->score->on_clear(g->score, cleared, false, 0);
   if (cleared > 0 && g->bus) {
     event_bus_publish(g->bus, &(GameEvent){ EV_LINE_CLEAR, cleared, sr.tetris ? 1 : 0, 0 });
