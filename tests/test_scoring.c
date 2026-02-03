@@ -3,6 +3,9 @@
 
 #define ASSERT(x) do { if (!(x)) return 1; } while(0)
 
+// protótipo anterior para evitar -Wmissing-prototypes
+int test_scoring(void);
+
 int test_scoring(void) {
   IScoring* s = scoring_modern_lite_create();
   ASSERT(s);
@@ -21,4 +24,4 @@ int test_scoring(void) {
 
   s->destroy(s);
   return 0;
-} 
+}

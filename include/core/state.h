@@ -16,8 +16,8 @@ typedef struct StateVTable {
 } StateVTable;
 
 struct State {
-  const StateVTable* v;
-  const char* name;
+  const StateVTable* v;   // OBRIGATÓRIO: deve apontar para uma vtable válida
+  const char* name;       // Opcional: usado apenas para logs/debug
 };
 
 typedef struct StateStack {

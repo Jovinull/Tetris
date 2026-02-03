@@ -4,6 +4,9 @@
 
 #define ASSERT(x) do { if (!(x)) return 1; } while(0)
 
+// protótipo anterior para evitar -Wmissing-prototypes
+int test_randomizer(void);
+
 static bool has_all_7(const Tetromino arr[7]) {
   bool seen[7] = {0,0,0,0,0,0,0};
   for (int i = 0; i < 7; ++i) {

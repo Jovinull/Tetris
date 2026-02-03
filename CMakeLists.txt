@@ -73,9 +73,15 @@ if (TETRIS_BUILD_TESTS)
   enable_testing()
 
   set(TETRIS_TEST_SOURCES
+    # utils (podem ser dependência indireta do event_bus/log)
+    src/utils/log.c
     src/utils/str.c
     src/utils/config.c
 
+    # core (necessário porque gameplay publica eventos)
+    src/core/event_bus.c
+
+    # gameplay
     src/gameplay/board.c
     src/gameplay/piece.c
     src/gameplay/srs.c
@@ -83,6 +89,7 @@ if (TETRIS_BUILD_TESTS)
     src/gameplay/scoring.c
     src/gameplay/gameplay.c
 
+    # tests
     tests/test_main.c
     tests/test_board.c
     tests/test_srs.c
