@@ -75,13 +75,15 @@ void app_run(App* app) {
         break;
       }
       input_handle_event(&app->input, &e);
-
-      State* s = state_stack_top(&app->states);
-      if (s && s->v && s->v->handle_event) s->v->handle_event(s, app, &e);
     }
 
     // update input repeats at ~16ms (fixed tick)
     input_update(&app->input, 16);
+
+    {
+      State* s = state_stack_top(&app->states);
+      if (s && s->v && s->v->handle_event) s->v->handle_event(s, app, NULL);
+    }
 
     while (time_should_update(&app->time)) {
       State* s = state_stack_top(&app->states);

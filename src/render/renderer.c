@@ -103,7 +103,7 @@ void draw_text(Renderer* rd, int x, int y, int scale, ColorRGBA c, const char* t
     for (int row = 0; row < 7; ++row) {
       const uint8_t bits = g->rows[row];
       for (int col = 0; col < 5; ++col) {
-        if ((bits >> col) & 1u) {
+        if ((bits >> (4 - col)) & 1u) {
           draw_rect(rd, cx + col * scale, y + row * scale, scale, scale, c, true);
         }
       }

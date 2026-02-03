@@ -205,14 +205,7 @@ void gameplay_apply_action(Gameplay* g, GameAction act, bool pressed) {
 
 static void gravity_step(Gameplay* g) {
   if (!g->has_cur) return;
-  if (try_move(g, 0, 1)) return;
-
-  // não desceu -> lock delay
-  g->lock_timer_ms += g->tick_ms;
-  if (g->lock_timer_ms >= g->opt.lock_delay_ms) {
-    lock_piece(g);
-    if (!g->game_over) (void)spawn_piece(g);
-  }
+  (void)try_move(g, 0, 1);
 }
 
 void gameplay_update(Gameplay* g, int dt_ms) {
@@ -243,6 +236,19 @@ void gameplay_update(Gameplay* g, int dt_ms) {
     g->tick_ms -= g->gravity_ms;
     gravity_step(g);
     if (g->game_over) break;
+  }
+
+  if (g->has_cur) {
+    if (on_ground(g)) {
+      g->lock_timer_ms += dt_ms;
+      if (g->lock_timer_ms >= g->opt.lock_delay_ms) {
+        lock_piece(g);
+        if (!g->game_over) (void)spawn_piece(g);
+      }
+    } else {
+      g->lock_timer_ms = 0;
+      g->lock_resets = 0;
+    }
   }
 }
 
