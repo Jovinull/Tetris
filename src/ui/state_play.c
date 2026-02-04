@@ -13,6 +13,8 @@ typedef struct PlayState {
   Gameplay game;
   FxSystem fx;
   Renderer* rd_ref; // para shake via listener
+
+  int soft_drop_acc_ms;
 } PlayState;
 
 static void shake_listener(void* user, const GameEvent* ev) {
@@ -41,6 +43,8 @@ static void on_enter(State* ss, App* app) {
 
   s->rd_ref = &app->renderer;
   (void)event_bus_subscribe(&app->bus, s->rd_ref, shake_listener);
+
+  s->soft_drop_acc_ms = 0;
 }
 
 static void on_exit(State* ss, App* app) {
@@ -75,6 +79,18 @@ static void update(State* ss, App* app, double dt) {
   PlayState* s = (PlayState*)ss;
 
   fx_update(&s->fx, 16);
+
+  if (input_is_down(&app->input, ACT_DOWN)) {
+    s->soft_drop_acc_ms += 16;
+    const int step_ms = 50;
+    while (s->soft_drop_acc_ms >= step_ms) {
+      s->soft_drop_acc_ms -= step_ms;
+      gameplay_apply_action(&s->game, ACT_DOWN, true);
+    }
+  } else {
+    s->soft_drop_acc_ms = 0;
+  }
+
   gameplay_update(&s->game, 16);
 
   if (s->game.game_over) {

@@ -113,7 +113,7 @@ static void process_das_arr(Input* in, int dt_ms) {
     if (in->left_held_ms >= das) {
       if (arr == 0) {
         // instant: empurra “muitos” moves; gameplay clampa por colisão
-        for (int i = 0; i < 6; ++i) q_push(in, ACT_LEFT, true);
+        q_push(in, ACT_LEFT, true);
       } else {
         const int repeats = in->left_held_ms / arr;
         if (repeats > 0) {
@@ -130,7 +130,7 @@ static void process_das_arr(Input* in, int dt_ms) {
     in->right_held_ms += dt_ms;
     if (in->right_held_ms >= das) {
       if (arr == 0) {
-        for (int i = 0; i < 6; ++i) q_push(in, ACT_RIGHT, true);
+        q_push(in, ACT_RIGHT, true);
       } else {
         const int repeats = in->right_held_ms / arr;
         if (repeats > 0) {
@@ -148,8 +148,14 @@ void input_update(Input* in, int dt_ms) {
   if (!in) return;
   process_das_arr(in, dt_ms);
 
-  // soft drop: enquanto segurado, dispara comandos adicionais (leve)
-  if (in->down_down) {
-    q_push(in, ACT_DOWN, true);
+}
+
+bool input_is_down(const Input* in, GameAction a) {
+  if (!in) return false;
+  switch (a) {
+    case ACT_LEFT:  return in->left_down;
+    case ACT_RIGHT: return in->right_down;
+    case ACT_DOWN:  return in->down_down;
+    default: return false;
   }
 }
