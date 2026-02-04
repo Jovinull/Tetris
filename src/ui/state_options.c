@@ -22,7 +22,7 @@ static void handle_event(State* ss, App* app, const SDL_Event* e) {
 
     if (cmd.action == ACT_DOWN) s->sel = (s->sel + 1) % 7;
     if (cmd.action == ACT_UP) s->sel = (s->sel - 1 + 7) % 7;
-    if (cmd.action == ACT_BACK) { app_save_config(app); (void)state_stack_pop(&app->states, app); }
+    if (cmd.action == ACT_BACK || cmd.action == ACT_PAUSE) { app_save_config(app); (void)state_stack_pop(&app->states, app); }
 
     if (cmd.action == ACT_CONFIRM) {
       if (s->sel == 0) { // mode
@@ -83,7 +83,7 @@ static void render(State* ss, App* app) {
     draw_text(rd, 26, y, 2, c, line);
   }
 
-  draw_text(rd, 20, 260, 1, (ColorRGBA){160,160,180,255}, "ENTER=TOGGLE  BACKSPACE=BACK (SAVES config.ini)");
+  draw_text(rd, 20, 260, 1, (ColorRGBA){160,160,180,255}, "ENTER=TOGGLE  BACKSPACE/ESC=BACK (SAVES config.ini)");
 }
 
 static void destroy(State* ss) { free(ss); }

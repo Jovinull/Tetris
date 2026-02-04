@@ -82,7 +82,7 @@ static void update(State* ss, App* app, double dt) {
 
   if (input_is_down(&app->input, ACT_DOWN)) {
     s->soft_drop_acc_ms += 16;
-    const int step_ms = 50;
+    const int step_ms = 50; // ~20 steps/seg, confortável e previsível
     while (s->soft_drop_acc_ms >= step_ms) {
       s->soft_drop_acc_ms -= step_ms;
       gameplay_apply_action(&s->game, ACT_DOWN, true);

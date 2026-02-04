@@ -76,6 +76,8 @@ static GameAction action_from_scancode(const Input* in, SDL_Scancode sc) {
   if (sc == SDL_SCANCODE_RIGHT) return ACT_RIGHT;
   if (sc == SDL_SCANCODE_DOWN)  return ACT_DOWN;
   if (sc == SDL_SCANCODE_UP) return ACT_UP;
+  if (sc == SDL_SCANCODE_W)  return ACT_UP;
+  if (sc == SDL_SCANCODE_S)  return ACT_DOWN;
   if (sc == SDL_SCANCODE_P) return ACT_PAUSE;
   if (sc == SDL_SCANCODE_R) return ACT_RESTART;
   return ACT_NONE;

@@ -11,7 +11,7 @@ static void handle_event(State* ss, App* app, const SDL_Event* e) {
   (void)e; (void)ss;
   InputCommand cmd;
   while (input_poll(&app->input, &cmd)) {
-    if (cmd.pressed && cmd.action == ACT_BACK) (void)state_stack_pop(&app->states, app);
+    if (cmd.pressed && (cmd.action == ACT_BACK || cmd.action == ACT_PAUSE)) (void)state_stack_pop(&app->states, app);
   }
 }
 
@@ -24,9 +24,9 @@ static void render(State* ss, App* app) {
   draw_text(rd, 20, 90, 2, (ColorRGBA){210,210,230,255},
     "Tetris C11 (SDL2)\n"
     "Arquitetura modular + testes\n"
-    "Feito para estudo e portfólio.\n"
+    "Feito para estudo e portfolio.\n"
   );
-  draw_text(rd, 20, 260, 1, (ColorRGBA){160,160,180,255}, "BACKSPACE=BACK");
+  draw_text(rd, 20, 260, 1, (ColorRGBA){160,160,180,255}, "BACKSPACE/ESC=BACK");
 }
 
 static void destroy(State* ss) { free(ss); }

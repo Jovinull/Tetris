@@ -13,7 +13,7 @@ static void handle_event(State* ss, App* app, const SDL_Event* e) {
   (void)e; (void)ss;
   InputCommand cmd;
   while (input_poll(&app->input, &cmd)) {
-    if (cmd.pressed && cmd.action == ACT_BACK) {
+    if (cmd.pressed && (cmd.action == ACT_BACK || cmd.action == ACT_PAUSE)) {
       (void)state_stack_pop(&app->states, app);
     }
   }
@@ -35,7 +35,7 @@ static void render(State* ss, App* app) {
     "PAUSE: P / ESC\n"
     "RESTART: R\n"
   );
-  draw_text(rd, 20, 260, 1, (ColorRGBA){160,160,180,255}, "BACKSPACE=BACK");
+  draw_text(rd, 20, 260, 1, (ColorRGBA){160,160,180,255}, "BACKSPACE/ESC=BACK");
 }
 
 static void destroy(State* ss) { free(ss); }
